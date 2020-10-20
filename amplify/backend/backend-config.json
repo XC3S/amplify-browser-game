@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "2dwebguildfae02148fae02148": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

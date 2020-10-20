@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-2dwebguild-dev-134739-authRole",
+      "UnauthRoleArn": "arn:aws:iam::405618765219:role/amplify-2dwebguild-dev-134739-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::405618765219:role/amplify-2dwebguild-dev-134739-authRole",
+      "Region": "eu-central-1",
+      "DeploymentBucketName": "amplify-2dwebguild-dev-134739-deployment",
+      "UnauthRoleName": "amplify-2dwebguild-dev-134739-unauthRole",
+      "StackName": "amplify-2dwebguild-dev-134739",
+      "StackId": "arn:aws:cloudformation:eu-central-1:405618765219:stack/amplify-2dwebguild-dev-134739/bb194100-1137-11eb-a14b-0258bc9972a0",
+      "AmplifyAppId": "d8lgk2zdg63au"
+    },
+    "categories": {
+      "auth": {
+        "2dwebguildfae02148fae02148": {}
+      }
+    }
+  }
+}
