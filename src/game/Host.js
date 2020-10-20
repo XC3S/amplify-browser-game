@@ -1,6 +1,8 @@
 import React from 'react';
 import Game from './Game';
 
+import ResourceLoader from './engine/ResourceLoader';
+
 class Host extends React.Component {
 
     constructor(props) {
@@ -10,7 +12,7 @@ class Host extends React.Component {
         this.camera = {
             x: 0,
             y: 0
-        }
+        };
         this.drag = {
             dragging: false,
             cameraStart: {
@@ -21,14 +23,20 @@ class Host extends React.Component {
                 x: 0,
                 y: 0
             }
-        }
+        };
     }
 
     componentDidMount() {
         const canvas = this.refs.canvas;
         const ctx = canvas.getContext("2d");
 
-        this.draw(ctx);
+        // load resources
+        ResourceLoader.initialize((resources) => {
+            console.log('[ENGINE] Resources loaded:', resources);
+
+            // start game loop
+            this.draw(ctx);
+        });
     }
 
     draw(ctx) {

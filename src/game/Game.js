@@ -1,3 +1,4 @@
+import ResourceLoader from './engine/ResourceLoader';
 
 export default class Game {
 
@@ -19,8 +20,8 @@ export default class Game {
                 {
                     x: 100,
                     y: 200,
-                    w: 50,
-                    h: 50
+                    w: 100,
+                    h: 100
                 }
             ]
         }
@@ -55,6 +56,7 @@ export default class Game {
             ctx.beginPath();
             ctx.rect(coords.x,coords.y, obj.w, obj.h);
             ctx.stroke();
+            ctx.drawImage(ResourceLoader.get('example1'),coords.x,coords.y, obj.w, obj.h);
         })
 
         //debug
