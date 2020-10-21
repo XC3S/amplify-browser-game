@@ -60,6 +60,20 @@ class Host extends React.Component {
             this.camera.y = this.drag.cameraStart.y - relativeY;
             this.game.moveCamera(this.camera);
         }
+
+        const canvasRect = this.refs.canvas.getBoundingClientRect();
+
+        this.game.updateMouse({
+            interface: {
+                x: event.pageX - canvasRect.left,
+                y: event.pageY - canvasRect.top
+            },
+            world: {
+                x: (event.pageX - canvasRect.left) - (640 / 2) - this.camera.x,
+                y: (event.pageY - canvasRect.top) - (425 / 2) - this.camera.y
+            }
+        })
+        
     }
 
     onMouseDown = (event) => {

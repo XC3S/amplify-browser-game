@@ -8,6 +8,17 @@ export default class Game {
             y: 0
         }
 
+        this.mouse = {
+            interface: {
+                x: 0,
+                y: 0
+            },
+            world: {
+                x: 0,
+                y: 0
+            }
+        }
+
         //mock
         this.world = {
             objects: [
@@ -29,6 +40,10 @@ export default class Game {
 
     moveCamera = (newCamera) => {
         this.camera = newCamera;
+    }
+
+    updateMouse = (mouseInformations) => {
+        this.mouse = mouseInformations;
     }
 
     // move to helper class or a low level object calls
@@ -58,6 +73,9 @@ export default class Game {
             ctx.stroke();
             ctx.drawImage(ResourceLoader.get('example1'),coords.x,coords.y, obj.w, obj.h);
         })
+
+        // building ghost
+        ctx.drawImage(ResourceLoader.get('example1-preview'),this.mouse.interface.x - 50,this.mouse.interface.y - 50, 100, 100);
 
         //debug
         ctx.font = "16px Verdana";
