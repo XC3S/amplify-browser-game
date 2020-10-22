@@ -2,6 +2,7 @@ import React from 'react';
 import Game from './Game';
 
 import ResourceLoader from './engine/ResourceLoader';
+import InputManager from './input/InputManager';
 
 class Host extends React.Component {
 
@@ -9,26 +10,13 @@ class Host extends React.Component {
         super(props);
         this.game = new Game();
         this.lastDraw = performance.now();
-        this.camera = {
-            x: 0,
-            y: 0
-        };
-        this.drag = {
-            dragging: false,
-            cameraStart: {
-                x: 0,
-                y: 0
-            },
-            dragStart: {
-                x: 0,
-                y: 0
-            }
-        };
     }
 
     componentDidMount() {
         const canvas = this.refs.canvas;
         const ctx = canvas.getContext("2d");
+
+        InputManager.initialize(canvas);
 
         // load resources
         ResourceLoader.initialize((resources) => {
@@ -42,9 +30,10 @@ class Host extends React.Component {
     draw(ctx) {
         const now = performance.now();
         const deltaTime = now - this.lastDraw;
+        const camera = InputManager.getCamera();
         this.lastDraw = now;
 
-        ctx.clearRect(0, 0, 640, 425);
+        ctx.clearRect(0, 0, camera.width, camera.height);
         this.game.draw(ctx, deltaTime);
 
         window.requestAnimationFrame(() => {
@@ -53,44 +42,15 @@ class Host extends React.Component {
     }
 
     onMouseMove = (event) => {
-        if(this.drag.dragging) {
-            const relativeX = this.drag.dragStart.x - event.screenX;
-            const relativeY = this.drag.dragStart.y - event.screenY;
-            this.camera.x = this.drag.cameraStart.x - relativeX;
-            this.camera.y = this.drag.cameraStart.y - relativeY;
-            this.game.moveCamera(this.camera);
-        }
-
-        const canvasRect = this.refs.canvas.getBoundingClientRect();
-
-        this.game.updateMouse({
-            interface: {
-                x: event.pageX - canvasRect.left,
-                y: event.pageY - canvasRect.top
-            },
-            world: {
-                x: (event.pageX - canvasRect.left) - (640 / 2) - this.camera.x,
-                y: (event.pageY - canvasRect.top) - (425 / 2) - this.camera.y
-            }
-        })
-        
+        InputManager.mouseMove(event);
     }
 
     onMouseDown = (event) => {
-        if(event.button === 0){
-            this.drag.dragging = true;
-            this.drag.cameraStart.x = this.camera.x;
-            this.drag.cameraStart.y = this.camera.y;
-            this.drag.dragStart.x = event.screenX;
-            this.drag.dragStart.y = event.screenY;
-
-        }
+        InputManager.mouseDown(event);
     }
 
     onMouseUp = (event) => {
-        if(event.button === 0){
-            this.drag.dragging = false;
-        }
+        InputManager.mouseUp(event);
     }
 
     render(){

@@ -1,7 +1,5 @@
 import { default as assets } from '../assets.json';
 
-
-
 class ResourceLoader {
     constructor(){
         if (!!ResourceLoader.instance) {

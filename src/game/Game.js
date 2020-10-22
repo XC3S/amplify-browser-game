@@ -1,24 +1,9 @@
 import ResourceLoader from './engine/ResourceLoader';
+import InputManager from './input/InputManager';
 
 export default class Game {
 
     constructor(){
-        this.camera = {
-            x: 0,
-            y: 0
-        }
-
-        this.mouse = {
-            interface: {
-                x: 0,
-                y: 0
-            },
-            world: {
-                x: 0,
-                y: 0
-            }
-        }
-
         //mock
         this.world = {
             objects: [
@@ -38,23 +23,11 @@ export default class Game {
         }
     }
 
-    moveCamera = (newCamera) => {
-        this.camera = newCamera;
-    }
-
-    updateMouse = (mouseInformations) => {
-        this.mouse = mouseInformations;
-    }
-
     // move to helper class or a low level object calls
     worldToCameraPosition = (x,y) => {
-        const cameraSize = {
-            width: 640, 
-            height: 425
-        };
-
-        const cameraCornerX = this.camera.x + (cameraSize.width / 2) + x;
-        const cameraCornerY = this.camera.y + (cameraSize.height / 2) + y;
+        const camera = InputManager.getCamera();
+        const cameraCornerX = camera.x + (camera.width / 2) + x;
+        const cameraCornerY = camera.y + (camera.height / 2) + y;
 
         return {
             x: cameraCornerX,
@@ -64,6 +37,7 @@ export default class Game {
 
     draw(ctx, delta) {
         const fps = delta * 3.28084;
+        const camera = InputManager.getCamera();
 
         //mock example
         this.world.objects.forEach(obj => {
@@ -75,13 +49,16 @@ export default class Game {
         })
 
         // building ghost
-        ctx.drawImage(ResourceLoader.get('example1-preview'),this.mouse.interface.x - 50,this.mouse.interface.y - 50, 100, 100);
+        ctx.drawImage(  ResourceLoader.get('example1-preview'),
+                        InputManager.getMousePosition().x - 50,
+                        InputManager.getMousePosition().y - 50,
+                        100, 100);
 
         //debug
         ctx.font = "16px Verdana";
         ctx.fillStyle = "lime";
         ctx.fillText(`fps: ${Math.floor(fps)}`, 10, 20);
-        ctx.fillText(`camera: ${this.camera.x}/${this.camera.y}`, 10, 40);
+        ctx.fillText(`camera: ${camera.x}/${camera.y}`, 10, 40);
     }
 }
 
